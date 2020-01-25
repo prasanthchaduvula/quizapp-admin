@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, NavLink } from 'react-router-dom';
 
 class Showquiz extends React.Component {
   constructor() {
@@ -66,7 +66,12 @@ class Showquiz extends React.Component {
                 >
                   ❌
                 </p>
-                <p className="question-no">✏️</p>
+                <NavLink
+                  to={`/admins/${localStorage.quizAdminName}/quizsets/${quizname}/${question.title}/${question._id}/edit/`}
+                  className="question-no"
+                >
+                  ✏️
+                </NavLink>
               </div>
 
               <div className="question-card">

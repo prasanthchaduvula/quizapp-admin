@@ -1,7 +1,7 @@
 import React from 'react';
-import { NavLink, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
-class Create extends React.Component {
+class Questionedit extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -15,6 +15,30 @@ class Create extends React.Component {
       quizset: ''
     };
   }
+  componentDidMount() {
+    let id = this.props.match.params.id;
+    fetch(`http://localhost:3001/api/v1/questions/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: localStorage.quizAdminToken
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          this.setState({
+            title: data.question.title,
+            option1: data.question.answers[0],
+            option2: data.question.answers[1],
+            option3: data.question.answers[2],
+            option4: data.question.answers[3],
+            correctanswer: data.question.correctanswer,
+            quizset: data.question.quizset
+          });
+        }
+      });
+  }
 
   handleChange = event => {
     let { name, value } = event.target;
@@ -26,8 +50,9 @@ class Create extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    fetch('http://localhost:3001/api/v1/questions/', {
-      method: 'POST',
+    let id = this.props.match.params.id;
+    fetch(`http://localhost:3001/api/v1/questions/${id}`, {
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         Authorization: localStorage.quizAdminToken
@@ -43,7 +68,7 @@ class Create extends React.Component {
       .then(data => {
         if (data.success) {
           this.props.history.push(
-            `/admins/${localStorage.quizAdminName}/quizsets/${data.createdQuestion.quizset}`
+            `/admins/${localStorage.quizAdminName}/quizsets/${data.updatedQuestion.quizset}`
           );
         }
       });
@@ -140,4 +165,4 @@ class Create extends React.Component {
   }
 }
 
-export default withRouter(Create);
+export default withRouter(Questionedit);

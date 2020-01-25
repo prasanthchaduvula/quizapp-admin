@@ -10,7 +10,7 @@ class Hero extends React.Component {
             <p className="hero-text">
               Create a quizset so that your users can appear for exam
             </p>
-            <NavLink className="hero-btn nav-item-btn" to="/signin">
+            <NavLink className="hero-btn nav-item-btn" to="/admins/signin">
               Get Started
             </NavLink>
           </center>
